@@ -2,6 +2,13 @@ import string
 
 # 1 - Write a Python function called "list_ifname_ip" to scan the configuration and return a dictionary that contains the "nameif" as the key and "IPaddress,NetMask" tuple as the value.
 
+def replace_my_strings(line):
+    mylist = ["255.255.0.0","255.255.255.0","172","192"]
+    myrepl = ["255.0.0.0","255.0.0.0","10","10"]
+    for rep in range(len(mylist)):
+        line = line.replace(mylist[rep],myrepl[rep])
+    return line
+
 def list_ifname_ip():
     mydict = dict()
     myfile = open("running-config.cfg","r")
@@ -24,21 +31,24 @@ def replace_str():
     myfile = open("running-config.cfg","r")
     newfile = open("running-config-new.cfg","w")
     for my in myfile:
-        mylist = my.split()
-        if "255.255.0.0" in my:
-            line = my.replace("255.255.0.0","255.0.0.0")
-            newfile.write(line)
-        elif "255.255.255.0" in my:
-            line  = my.replace("255.255.255.0","255.0.0.0")
-            newfile.write(line)
-        elif "172" in my:
-            line = my.replace("172","10")
-            newfile.write(line)
-        elif "192" in my:
-            line = my.replace("192","10")
-            newfile.write(line)
-        else:
-            newfile.write(my)
+     #   mylist = my.split()
+     #   if "255.255.0.0" in my:
+     #       line = my.replace("255.255.0.0","255.0.0.0")
+     #       newfile.write(line)
+     #   elif "255.255.255.0" in my:
+     #       line  = my.replace("255.255.255.0","255.0.0.0")
+     #       newfile.write(line)
+     #   elif "172" in my:
+     #       line = my.replace("172","10")
+     #       newfile.write(line)
+     #   elif "192" in my:
+     #       line = my.replace("192","10")
+     #       newfile.write(line)
+     #   else:
+     #       newfile.write(my)
+        my = replace_my_strings(my)
+        newfile.write(my)
+    
 # 3 - Create a individual python-list of "access-list" for "transit_access_in","fw-management_access_in" and "global_access"
 def create_list():
     myfile = open("running-config.cfg","r")
