@@ -1,5 +1,7 @@
 import string
 
+# 1 - Write a Python function called "list_ifname_ip" to scan the configuration and return a dictionary that contains the "nameif" as the key and "IPaddress,NetMask" tuple as the value.
+
 def list_ifname_ip():
     mydict = dict()
     myfile = open("running-config.cfg","r")
@@ -16,14 +18,18 @@ def list_ifname_ip():
                 com = "(" + str(ip) + "," + str(mask) + ")"
                 mydict[key] = com 
     return mydict 
-         
+
+# 2 - Create a new configuration file that replaces all (sub-)interface IP addresses that start with '172.' and '192." to "10." and also change the netmask from ("255.255.0.0"/"255.255.255.0") to "255.0.0.0"         
 def replace_str():
     myfile = open("running-config.cfg","r")
     newfile = open("running-config-new.cfg","w")
     for my in myfile:
         mylist = my.split()
         if "255.255.0.0" in my:
-            line = my.replace("255.255.0.0","255.255.255.0")
+            line = my.replace("255.255.0.0","255.0.0.0")
+            newfile.write(line)
+        elif "255.255.255.0" in my:
+            line  = my.replace("255.255.255.0","255.0.0.0")
             newfile.write(line)
         elif "172" in my:
             line = my.replace("172","10")
@@ -33,7 +39,7 @@ def replace_str():
             newfile.write(line)
         else:
             newfile.write(my)
-
+# 3 - Create a individual python-list of "access-list" for "transit_access_in","fw-management_access_in" and "global_access"
 def create_list():
     myfile = open("running-config.cfg","r")
     transit_access_in = []
