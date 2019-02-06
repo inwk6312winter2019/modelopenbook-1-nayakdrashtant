@@ -3,7 +3,6 @@ import string
 def list_ifname_ip():
     mydict = dict()
     myfile = open("running-config.cfg","r")
-   # mydict["nameif"] = {}
     counter = 0
     for my in myfile:
         mywhi = my.strip()
@@ -16,6 +15,25 @@ def list_ifname_ip():
                 counter += 1
                 com = "(" + str(ip) + "," + str(mask) + ")"
                 mydict[key] = com 
-    print(mydict)
+    return mydict 
+         
+def replace_str():
+    myfile = open("running-config.cfg","r")
+    newfile = open("running-config-new.cfg","w")
+    for my in myfile:
+        mylist = my.split()
+        if "255.255.0.0" in my:
+            line = my.replace("255.255.0.0","255.255.255.0")
+            newfile.write(line)
+        elif "172" in my:
+            line = my.replace("172","10")
+            newfile.write(line)
+        elif "192" in my:
+            line = my.replace("192","10")
+            newfile.write(line)
+        else:
+            newfile.write(my)
+#      newfile.close() 
 
-list_ifname_ip()
+print(list_ifname_ip())
+replace_str()
